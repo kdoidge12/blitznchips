@@ -1,0 +1,34 @@
+Towers--
+  a. Rick : Long range, high damage, fast attack, expensive 
+    Rank 1 : Base stats
+    Rank 2:  Increase base stats
+    Rank 3:  Longer range, more damage, faster attack
+  b. Morty : base tower, ok range ok damage, cost efficient
+    Rank 1 : Base stats
+    Rank 2 : Increase base stats
+    Rank 3 : Shoots two at once
+  c. Summers : slow tower(ice), slow attack, aoe
+    Rank 1 : Base stats
+    Rank 2 : Increase base stats
+    Rank 3 : Turns into ice-cube , proximity slow
+  d. Beth : Scappel, short range, aoe (tiamat effect)
+    Rank 1 : Base stats
+    Rank 2 : Increase base stats
+    Rank 3 : 
+  e. Jerry : poison tower, toxic, low damage, high burn
+    Rank 1 : Base stats
+    Rank 2 : Increase base stats
+    Rank 3 : Gains skill : Plant bomb, every x seconds shoots AOE bomb onto grid
+    
+Monsters--
+  a. Mr Meeseeks
+    - Moderate speed, moderate health. Early levels to get started
+  b. Mr PoopyButthole 
+    - Fast paced, low health, big groups
+  c. Crombopolous Michael 
+    - Boss, fast, moderate health
+  d. The Principle
+    - Boss, 
+  e. Beta-Seven
+    - 
+  
