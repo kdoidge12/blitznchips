@@ -23,6 +23,8 @@ pygame.display.set_caption('Map Test')
 #these are the width and height of the game tiles
 width = 25
 height = 25
+screenTileW = 1000 / 25
+screenTileH = 800 / 25
 
 #this read the file and makes it into  a list of list 
 def popGrid(f):
@@ -82,9 +84,53 @@ def drawGrid():
 		#horizontal lines
 		pygame.draw.lines(windowSurface,white,False,[(a,b),(c,b)],3)
 		b=b+25
+
+
+#These fucn are just to help with making a list of numebr by the width and height	
+def multi25W(x):
+	return x * width
+
+def multi25H(x):
+	return x * height  
+
+#makes to list one for the width and the other for the height ex.[0,25,50,....]
+def makeListWH(w,h):
+	xlist = map(multi25W,range(0,w))
+	ylist = map(multi25H,range(0,h))
+	return xlist, ylist
+
+#take mouse up click and gives back a pair of x,y cord
+def getGridCord(x,y):
+	i = 0
+	j = 1
+	pair = []
+	while(i < len(xlist)):
+		if(xlist[i] <= x and x < xlist[j]):
+			pair.append(i)
+			print(pair)
+			break
 		
+		i = i + 1
+		j = j + 1
+	a = 0
+	b = 1
+	while(a < len(ylist)):
+		if(ylist[a] <= y and y < ylist[b]):
+			pair.append(a)
+			print(pair)
+			break
+		a = a + 1
+		b = b + 1
+
+	return pair
+
+			
+
+
 #reads in the command line argv for the map text file
 f = file(sys.argv[1],'r')
+
+xlist, ylist = makeListWH(screenTileW+1,screenTileH+1)
 
 # draw the window onto the screen
 grid = popGrid(f)
@@ -103,6 +149,9 @@ while True:
 		pygame.display.update()
 	
 	for event in pygame.event.get():
+		if event.type == pygame.MOUSEBUTTONUP:
+			mousex, mousey = pygame.mouse.get_pos()
+			cord = getGridCord(mousex,mousey)
 		if event.type == QUIT:
 			pygame.quit()
 	    		sys.exit()
