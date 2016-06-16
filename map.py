@@ -12,10 +12,24 @@ bright_blue = (0,0,255)
 white = (255,255,255)
 gray = (100,100,100)
 
+<<<<<<< HEAD
+man = pygame.image.load("rick.png")
+clock = pygame.time.Clock()
+speedX=0
+
+xlist, ylist = makeListWH(screenTileW+1,screenTileH+1)
+exbutton = [xlist[1],ylist[27],width*3+xlist[1],height*2+ylist[27]]
+movingX = xlist[6]
+movingY = ylist[3]
+
+pygame.init()
+
+=======
 
 
 pygame.init()
 
+>>>>>>> master
 #size is width x heigth of the window that opens
 size = (1000,800)
 windowSurface = pygame.display.set_mode((size),0,32)
@@ -86,8 +100,49 @@ def drawGrid():
 		#horizontal lines
 		pygame.draw.lines(windowSurface,white,False,[(a,b),(c,b)],3)
 		b=b+25
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 
+#These fucn are just to help with making a list of numebr by the width and height	
+def multi25W(x):
+	return x * width
+
+<<<<<<< HEAD
+def multi25H(x):
+	return x * height  
+
+#makes to list one for the width and the other for the height ex.[0,25,50,....]
+def makeListWH(w,h):
+	xlist = map(multi25W,range(0,w))
+	ylist = map(multi25H,range(0,h))
+	return xlist, ylist
+
+#take mouse up click and gives back a pair of x,y cord
+def getGridCord(x,y):
+	i = 0
+	j = 1
+	pair = []
+	while(i < len(xlist)):
+		if(xlist[i] <= x and x < xlist[j]):
+			pair.append(i)
+			break
+		
+		i = i + 1
+		j = j + 1
+	a = 0
+	b = 1
+	while(a < len(ylist)):
+		if(ylist[a] <= y and y < ylist[b]):
+			pair.append(a)
+			#print(pair)
+			break
+		a = a + 1
+		b = b + 1
+
+	return pair
+=======
 #These fucn are just to help with making a list of numebr by the width and height	
 def multi25W(x):
 	return x * width
@@ -148,14 +203,44 @@ f = file(sys.argv[1],'r')
 
 xlist, ylist = makeListWH(screenTileW+1,screenTileH+1)
 exbutton = [xlist[1],ylist[27],width*3+xlist[1],height*2+ylist[27]]
+>>>>>>> master
 
+def drawButtons():
+		drawExample(0)
+
+def drawExample(x):
+		#print(x)
+		if(x is 0):
+			exam = pygame.image.load("ex2.jpg")
+			windowSurface.blit(exam,(xlist[1],ylist[27]))
+			#pygame.draw.rect(windowSurface,blue,(xlist[1],ylist[27],width*3,height*2),0)
+			pygame.display.update()
+		else:
+			exam = pygame.image.load("ex.jpg")
+			windowSurface.blit(exam,(xlist[1],ylist[27]))
+			#pygame.draw.rect(windowSurface,red,(xlist[1],ylist[27],width*3,height*2),0)
+			pygame.display.update()
+
+def move(coordinate,xy):
+	print("COORD", grid[coordinate[1]][coordinate[0]])
+	if (grid[coordinate[1]][coordinate[0]] != "7"):
+		windowSurface.blit(man,(coordinate[1],coordinate[0]))
+		movingX+=1
+		print("MOVINGX", movingX)
+		pygame.display.flip()
+		drawMap(grid)
+
+######################################################################################
+#39,31
+#reads in the command line argv for the map text file
+f = file(sys.argv[1],'r')
 
 # draw the window onto the screen
 grid = popGrid(f)
 drawMap(grid)
 print(exbutton)
 pygame.display.update()
-
+xy = 0
 # run the game loop
 while True:
 	gswitch = pygame.key.get_pressed()[K_g]
@@ -181,5 +266,17 @@ while True:
 			pygame.quit()
 	    		sys.exit()
 	
+<<<<<<< HEAD
+	####################################################
+	#Character movement. Coordinate obtains coordinates#
+	#corresponding to Grid[Y][X]. Moves til it finds   #
+	#7 in the grid, then readjusts.                    #
+	#################################################### 
+	coordinate = getGridCord(movingX,movingY)
+	move(coordinate,xy)
+
+
+=======
+>>>>>>> master
 
 
