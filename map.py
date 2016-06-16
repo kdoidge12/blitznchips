@@ -7,7 +7,8 @@ import sys
 #const color with the RGB values
 red = (255,0,0)
 green = (0,255,0)
-blue = (0,0,255)
+blue = (0,0,200)
+bright_blue = (0,0,255)
 white = (255,255,255)
 gray = (100,100,100)
 
@@ -60,7 +61,8 @@ def drawMap(grid):
 			pygame.draw.rect(windowSurface,color,(x,y,width,height),0)
 			x = x + height + margin
 		y=y+width + margin
-		x = 0	
+		x = 0
+	drawButtons()	
 
 #draws the grid onto the map 	
 def drawGrid():
@@ -107,7 +109,6 @@ def getGridCord(x,y):
 	while(i < len(xlist)):
 		if(xlist[i] <= x and x < xlist[j]):
 			pair.append(i)
-			print(pair)
 			break
 		
 		i = i + 1
@@ -117,24 +118,42 @@ def getGridCord(x,y):
 	while(a < len(ylist)):
 		if(ylist[a] <= y and y < ylist[b]):
 			pair.append(a)
-			print(pair)
+			#print(pair)
 			break
 		a = a + 1
 		b = b + 1
 
 	return pair
 
-			
+def drawButtons():
+		drawExample(0)
 
-
+def drawExample(x):
+		#print(x)
+		if(x is 0):
+			exam = pygame.image.load("ex2.jpg")
+			windowSurface.blit(exam,(xlist[1],ylist[27]))
+			#pygame.draw.rect(windowSurface,blue,(xlist[1],ylist[27],width*3,height*2),0)
+			pygame.display.update()
+		else:
+			exam = pygame.image.load("ex.jpg")
+			windowSurface.blit(exam,(xlist[1],ylist[27]))
+			#pygame.draw.rect(windowSurface,red,(xlist[1],ylist[27],width*3,height*2),0)
+			pygame.display.update()
+		
+######################################################################################
+#39,31
 #reads in the command line argv for the map text file
 f = file(sys.argv[1],'r')
 
 xlist, ylist = makeListWH(screenTileW+1,screenTileH+1)
+exbutton = [xlist[1],ylist[27],width*3+xlist[1],height*2+ylist[27]]
+
 
 # draw the window onto the screen
 grid = popGrid(f)
 drawMap(grid)
+print(exbutton)
 pygame.display.update()
 
 # run the game loop
@@ -152,8 +171,15 @@ while True:
 		if event.type == pygame.MOUSEBUTTONUP:
 			mousex, mousey = pygame.mouse.get_pos()
 			cord = getGridCord(mousex,mousey)
+			print(cord)
+			if((exbutton[0] <= xlist[cord[0]] and xlist[cord[0]] < exbutton[2]) and (exbutton[1] <= ylist[cord[1]] and ylist[cord[1]] < exbutton[3])):
+				drawExample(1)
+			else:
+				drawExample(0)
+
 		if event.type == QUIT:
 			pygame.quit()
 	    		sys.exit()
 	
+
 
