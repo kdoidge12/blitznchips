@@ -12,7 +12,6 @@ bright_blue = (0,0,255)
 white = (255,255,255)
 gray = (100,100,100)
 
-<<<<<<< HEAD
 man = pygame.image.load("rick.png")
 clock = pygame.time.Clock()
 speedX=0
@@ -24,12 +23,6 @@ movingY = ylist[3]
 
 pygame.init()
 
-=======
-
-
-pygame.init()
-
->>>>>>> master
 #size is width x heigth of the window that opens
 size = (1000,800)
 windowSurface = pygame.display.set_mode((size),0,32)
@@ -41,7 +34,7 @@ height = 25
 screenTileW = 1000 / 25
 screenTileH = 800 / 25
 
-#this read the file and makes it into  a list of list 
+#this read the file and makes it into  a list of list
 def popGrid(f):
 	grid = []
 	row = 0
@@ -55,7 +48,7 @@ def popGrid(f):
 #this reads the grid and draw the map based on the given color
 def drawMap(grid):
 	x = 0
-	y = 0 
+	y = 0
 	margin = 0
 	for row in grid:
 		#End everyline, including last line of map with '/n' but  only need to do it once
@@ -76,9 +69,9 @@ def drawMap(grid):
 			x = x + height + margin
 		y=y+width + margin
 		x = 0
-	drawButtons()	
+	drawButtons()
 
-#draws the grid onto the map 	
+#draws the grid onto the map
 def drawGrid():
 	x = 25
 	y = 25
@@ -94,24 +87,20 @@ def drawGrid():
 	#print(rlen)
 	for col in range(rlen):
 		#vertical lines
-		pygame.draw.lines(windowSurface,white,False,[(x,y),(x,z)],3) 
+		pygame.draw.lines(windowSurface,white,False,[(x,y),(x,z)],3)
 		x=x+25
 	for x in range(glen):
 		#horizontal lines
 		pygame.draw.lines(windowSurface,white,False,[(a,b),(c,b)],3)
 		b=b+25
-<<<<<<< HEAD
 
-=======
->>>>>>> master
 
-#These fucn are just to help with making a list of numebr by the width and height	
+#These fucn are just to help with making a list of numebr by the width and height
 def multi25W(x):
 	return x * width
 
-<<<<<<< HEAD
 def multi25H(x):
-	return x * height  
+	return x * height
 
 #makes to list one for the width and the other for the height ex.[0,25,50,....]
 def makeListWH(w,h):
@@ -128,7 +117,7 @@ def getGridCord(x,y):
 		if(xlist[i] <= x and x < xlist[j]):
 			pair.append(i)
 			break
-		
+
 		i = i + 1
 		j = j + 1
 	a = 0
@@ -142,68 +131,6 @@ def getGridCord(x,y):
 		b = b + 1
 
 	return pair
-=======
-#These fucn are just to help with making a list of numebr by the width and height	
-def multi25W(x):
-	return x * width
-
-def multi25H(x):
-	return x * height  
-
-#makes to list one for the width and the other for the height ex.[0,25,50,....]
-def makeListWH(w,h):
-	xlist = map(multi25W,range(0,w))
-	ylist = map(multi25H,range(0,h))
-	return xlist, ylist
-
-#take mouse up click and gives back a pair of x,y cord
-def getGridCord(x,y):
-	i = 0
-	j = 1
-	pair = []
-	while(i < len(xlist)):
-		if(xlist[i] <= x and x < xlist[j]):
-			pair.append(i)
-			break
-		
-		i = i + 1
-		j = j + 1
-	a = 0
-	b = 1
-	while(a < len(ylist)):
-		if(ylist[a] <= y and y < ylist[b]):
-			pair.append(a)
-			#print(pair)
-			break
-		a = a + 1
-		b = b + 1
-
-	return pair
-
-def drawButtons():
-		drawExample(0)
-
-def drawExample(x):
-		#print(x)
-		if(x is 0):
-			exam = pygame.image.load("ex2.jpg")
-			windowSurface.blit(exam,(xlist[1],ylist[27]))
-			#pygame.draw.rect(windowSurface,blue,(xlist[1],ylist[27],width*3,height*2),0)
-			pygame.display.update()
-		else:
-			exam = pygame.image.load("ex.jpg")
-			windowSurface.blit(exam,(xlist[1],ylist[27]))
-			#pygame.draw.rect(windowSurface,red,(xlist[1],ylist[27],width*3,height*2),0)
-			pygame.display.update()
-		
-######################################################################################
-#39,31
-#reads in the command line argv for the map text file
-f = file(sys.argv[1],'r')
-
-xlist, ylist = makeListWH(screenTileW+1,screenTileH+1)
-exbutton = [xlist[1],ylist[27],width*3+xlist[1],height*2+ylist[27]]
->>>>>>> master
 
 def drawButtons():
 		drawExample(0)
@@ -251,7 +178,7 @@ while True:
 	if(cswitch == 1):
 		drawMap(grid)
 		pygame.display.update()
-	
+
 	for event in pygame.event.get():
 		if event.type == pygame.MOUSEBUTTONUP:
 			mousex, mousey = pygame.mouse.get_pos()
@@ -265,18 +192,11 @@ while True:
 		if event.type == QUIT:
 			pygame.quit()
 	    		sys.exit()
-	
-<<<<<<< HEAD
+
 	####################################################
 	#Character movement. Coordinate obtains coordinates#
 	#corresponding to Grid[Y][X]. Moves til it finds   #
 	#7 in the grid, then readjusts.                    #
-	#################################################### 
+	####################################################
 	coordinate = getGridCord(movingX,movingY)
 	move(coordinate,xy)
-
-
-=======
->>>>>>> master
-
-
