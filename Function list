@@ -1,0 +1,82 @@
+####################################################
+#These funcs are just to help with making a list of# 
+#numebr by the width and height. X is a input and  #
+#is the multiply to generate the numbers           #
+####################################################
+multi25W(x)
+multi25H(x)
+
+###################################################
+#makes to list one for the width and the other for# 
+#the height ex.[0,25,50,....]. xlist and ylist are#
+#a list of all the possiable pixal grid values    #
+###################################################
+makeListWH(w,h)
+
+###################################################
+#this read the file and makes it into  a 		  #
+#list of list. Where f is a file that will contain#
+#the map information. grid will be the main game  #
+#grid in which everything will be saved to        #
+###################################################
+popGrid(f)
+
+###################################################
+#This Func take in a populated gird and draws it  #
+#to the screen. Will loop through all of the grid #
+#and then draw and color code where needed also   #
+#calls the draw button func to draw the buttons   #
+###################################################
+drawMap(grid)
+
+##########################################
+#Draw the grid in line onto the playable #
+#map surface. ONLY draw to playable areas#
+##########################################
+drawGrid()
+
+###################################################
+#This Func take in a populated gird and draws it  #
+#to the screen. Will loop through all of the grid #
+#and then draw and color code where needed also   #
+#calls the draw button func to draw the buttons   #
+###################################################
+drawMap(grid)
+
+##########################################
+#Draw the grid in line onto the playable #
+#map surface. ONLY draw to playable areas#
+##########################################
+drawGrid()
+
+########################################################
+#x and y are pixel postion on windowsurface check where#
+#these values are and returns an order pair base on x,y#
+########################################################
+getGridCord(x,y)
+
+###################################################
+#The func test whether a tower can be put here    #
+#Buy taking in a x and y int and checking the grid#
+###################################################
+canPutTower(x,y)
+
+##########################################
+#draws all buttons onto the map          #
+##########################################
+drawButtons()
+
+##########################################
+#just draws Example button x is on or off#
+##########################################
+drawExample(x)
+
+###########################################
+#just draws Example2 button x is on or off#
+###########################################
+drawExample2(x)
+
+
+
+
+
