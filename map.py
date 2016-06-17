@@ -11,15 +11,9 @@ blue = (0,0,200)
 bright_blue = (0,0,255)
 white = (255,255,255)
 gray = (100,100,100)
+yellow = (255,255,0)
 
-man = pygame.image.load("rick.png")
-clock = pygame.time.Clock()
-speedX=0
 
-xlist, ylist = makeListWH(screenTileW+1,screenTileH+1)
-exbutton = [xlist[1],ylist[27],width*3+xlist[1],height*2+ylist[27]]
-movingX = xlist[6]
-movingY = ylist[3]
 
 pygame.init()
 
@@ -29,12 +23,12 @@ windowSurface = pygame.display.set_mode((size),0,32)
 pygame.display.set_caption('Map Test')
 
 #these are the width and height of the game tiles
-width = 25
+width =  25
 height = 25
-screenTileW = 1000 / 25
-screenTileH = 800 / 25
+screenTileW = 1000 / width
+screenTileH = 800 / height
 
-#this read the file and makes it into  a list of list
+#this read the file and makes it into  a list of list 
 def popGrid(f):
 	grid = []
 	row = 0
@@ -48,7 +42,7 @@ def popGrid(f):
 #this reads the grid and draw the map based on the given color
 def drawMap(grid):
 	x = 0
-	y = 0
+	y = 0 
 	margin = 0
 	for row in grid:
 		#End everyline, including last line of map with '/n' but  only need to do it once
@@ -65,13 +59,15 @@ def drawMap(grid):
 				color = white
 			if(column == "4"):
 				color = gray
+			if(column == "5"):
+				color = yellow
 			pygame.draw.rect(windowSurface,color,(x,y,width,height),0)
 			x = x + height + margin
 		y=y+width + margin
 		x = 0
-	drawButtons()
+	drawButtons()	
 
-#draws the grid onto the map
+#draws the grid onto the map 	
 def drawGrid():
 	x = 25
 	y = 25
@@ -87,7 +83,7 @@ def drawGrid():
 	#print(rlen)
 	for col in range(rlen):
 		#vertical lines
-		pygame.draw.lines(windowSurface,white,False,[(x,y),(x,z)],3)
+		pygame.draw.lines(windowSurface,white,False,[(x,y),(x,z)],3) 
 		x=x+25
 	for x in range(glen):
 		#horizontal lines
@@ -95,12 +91,12 @@ def drawGrid():
 		b=b+25
 
 
-#These fucn are just to help with making a list of numebr by the width and height
+#These fucn are just to help with making a list of numebr by the width and height	
 def multi25W(x):
 	return x * width
 
 def multi25H(x):
-	return x * height
+	return x * height  
 
 #makes to list one for the width and the other for the height ex.[0,25,50,....]
 def makeListWH(w,h):
@@ -117,7 +113,7 @@ def getGridCord(x,y):
 		if(xlist[i] <= x and x < xlist[j]):
 			pair.append(i)
 			break
-
+		
 		i = i + 1
 		j = j + 1
 	a = 0
@@ -147,27 +143,22 @@ def drawExample(x):
 			windowSurface.blit(exam,(xlist[1],ylist[27]))
 			#pygame.draw.rect(windowSurface,red,(xlist[1],ylist[27],width*3,height*2),0)
 			pygame.display.update()
-
-def move(coordinate,xy):
-	print("COORD", grid[coordinate[1]][coordinate[0]])
-	if (grid[coordinate[1]][coordinate[0]] != "7"):
-		windowSurface.blit(man,(coordinate[1],coordinate[0]))
-		movingX+=1
-		print("MOVINGX", movingX)
-		pygame.display.flip()
-		drawMap(grid)
-
+		
 ######################################################################################
 #39,31
 #reads in the command line argv for the map text file
 f = file(sys.argv[1],'r')
 
+xlist, ylist = makeListWH(screenTileW+1,screenTileH+1)
+exbutton = [xlist[1],ylist[27],width*3+xlist[1],height*2+ylist[27]]
+
+
 # draw the window onto the screen
 grid = popGrid(f)
 drawMap(grid)
-print(exbutton)
+
 pygame.display.update()
-xy = 0
+exswitch = False
 # run the game loop
 while True:
 	gswitch = pygame.key.get_pressed()[K_g]
@@ -178,25 +169,32 @@ while True:
 	if(cswitch == 1):
 		drawMap(grid)
 		pygame.display.update()
-
+	
 	for event in pygame.event.get():
-		if event.type == pygame.MOUSEBUTTONUP:
+
+		if(exswitch is True and event.type is pygame.MOUSEBUTTONDOWN):
+			mousex, mousey = pygame.mouse.get_pos()
+			cord = getGridCord(mousex,mousey)
+			pygame.draw.rect(windowSurface,yellow,(xlist[cord[0]],xlist[cord[1]],width,height),0)
+			grid[cord[1]][cord[0]] = '5'
+			print(grid[cord[1]][cord[0]])
+			exswitch = False
+			pygame.display.update()
+
+		if event.type == pygame.MOUSEBUTTONDOWN:
 			mousex, mousey = pygame.mouse.get_pos()
 			cord = getGridCord(mousex,mousey)
 			print(cord)
 			if((exbutton[0] <= xlist[cord[0]] and xlist[cord[0]] < exbutton[2]) and (exbutton[1] <= ylist[cord[1]] and ylist[cord[1]] < exbutton[3])):
 				drawExample(1)
+				exswitch = True
 			else:
 				drawExample(0)
+				exswitch = False
 
 		if event.type == QUIT:
 			pygame.quit()
 	    		sys.exit()
+	
 
-	####################################################
-	#Character movement. Coordinate obtains coordinates#
-	#corresponding to Grid[Y][X]. Moves til it finds   #
-	#7 in the grid, then readjusts.                    #
-	####################################################
-	coordinate = getGridCord(movingX,movingY)
-	move(coordinate,xy)
+
