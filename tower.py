@@ -2,48 +2,55 @@ from __future__ import print_function
 import pygame
 from pygame.locals import *
 import sys
-import map
-
-###################################################
-#The func test whether a tower can be put here    #
-#Buy taking in a x and y int and checking the grid#
-###################################################
-def canPutTower(x,y,g):
-	if(g[y][x] is '0'):
-		return True
-	else:
-		return False
+from map import Map
 
 
-##########################################
-#draws all buttons onto the map          #
-##########################################
-def drawButtons():
-	drawRedButton(0)
-	drawBlueButton(0)
+class Tower(Map):
+	def __init__(self,typ=0,tly=0,tlx=0):
+		self.ttype = typ
+		self.centerx = self.setCenter(tlx)
+		self.centery = self.setCenter(tly)
+		self.dam = 0
+		self.radius = 0
+		self.setType()
+		
+	def setType(self):
+		if(self.ttype is 1 ):
+			self.dam = 1
+			self.radius = 75
 
+		if(self.ttype is 2):
+			self.dam = 10
+			self.radius = 150
 
-##########################################
-#just draws Example button x is on or off#
-##########################################
-def drawRedButton(x):
-	if(x is 0):
-		exam = pygame.image.load("ex2.jpg")
-		map.windowSurface.blit(exam,(map.exbutton[0],map.exbutton[1]))
-	else:
-		exam = pygame.image.load("ex.jpg")
-		map.windowSurface.blit(exam,(map.exbutton[0],map.exbutton[1]))
-	pygame.display.update()
+	def setCenter(self,num):
+		x = (num + (self.ttype * 25) + num)/2
+		return x
 
-
-###########################################
-#just draws Example2 button x is on or off#
-###########################################
-def drawBlueButton(x):
-		if(x is 0):
-			exam2 = pygame.image.load("ex2.jpg")
-			map.windowSurface.blit(exam2,(map.exbutton2[0],map.exbutton2[1]))
+	def pingTower(self,mini):
+		#print("Center x,y",self.centerx,self.centery,self.radius)
+		rb = self.radius + self.centerx
+		lb = self.centerx - self.radius
+		ub = self.radius + self.centery
+		lob = self.centery - self.radius
+		#print(rb,lb,ub,lob)
+		x = mini.movingX
+		y = mini.movingY
+		#print(x,y)
+		if((lb <= x and x <= rb)and(lob <= y and y <= ub)):
+			#print("Found it")
+			return True
 		else:
-			exam2 = pygame.image.load("ex.jpg")
-			map.windowSurface.blit(exam2,(map.exbutton2[0],map.exbutton2[1]))
-		pygame.display.update()
+			return False
+
+	def damMini(self,x):
+		x.HP = x.HP - self.dam
+		if(x.HP <= 0):
+			return True
+		else:
+			return False
+
+
+		
+
+
