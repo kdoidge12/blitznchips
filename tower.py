@@ -12,17 +12,22 @@ class Tower(Map):
 		self.centery = self.setCenter(tly)
 		self.dam = 0
 		self.radius = 0
+		self.cost = 0
 		self.setType()
 		
 	def setType(self):
 		if(self.ttype is 1 ):
+			print("print", self.ttype)
 			self.dam = 1
 			self.radius = 75
+			self.cost = 25
 
 		if(self.ttype is 2):
+			print("print", self.ttype)
 			self.dam = 10
 			self.radius = 150
-
+			self.cost = 75
+			
 	def setCenter(self,num):
 		x = (num + (self.ttype * 25) + num)/2
 		return x

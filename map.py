@@ -20,6 +20,35 @@ class Map:
 		else:
 			return False
 
+	def live_check(self,minions,x):
+		coordinate = self.getGridCord(x.movingX,x.movingY)
+		if(self.grid[coordinate[1]][coordinate[0]] == "5"):
+			minions.remove(x)
+			self.lives = self.lives - 1
+			self.live_out()
+
+	def live_out(self):
+		l_c = "Lives:"+str(self.lives)
+		font = pygame.font.SysFont("arial",24)
+		label = font.render((l_c),1,(0,0,0))
+		#self.windowSurface.blit(self.filler,(0,0))
+		self.windowSurface.blit(label,(725,650))
+		pygame.display.update()
+
+	def score_out(self):
+		s_c = "Score:"+str(self.score)
+		font = pygame.font.SysFont("arial",24)
+		label = font.render((s_c),1,(0,0,0))
+		self.windowSurface.blit(label,(725,700))
+		pygame.display.update()
+
+	def money_out(self):
+		m_c = "Money:"+str(self.money)
+		font = pygame.font.SysFont("arial",24)
+		label = font.render((m_c),1,(0,0,0))
+		self.windowSurface.blit(label,(725,750))
+		pygame.display.update()
+
 	def blit_update(self):
 		pygame.display.update()
 		pygame.time.delay(100)
@@ -34,9 +63,10 @@ class Map:
 			else:
 				self.windowSurface.blit(constants.man,(x.movingX,x.movingY))
 				x.movingX = x.movingX + (25*mul)
+			self.live_check(minions,x)
 			#pygame.display.update()
-		pygame.display.update()
-		pygame.time.delay(100)
+		#pygame.display.update()
+		#pygame.time.delay(100)
 
 	def multi25W(self,x):
 		return x * self.width
@@ -220,29 +250,48 @@ class Map:
 				self.windowSurface.blit(exam2,(self.exbutton2[0],self.exbutton2[1]))
 			#pygame.display.update()
 
-	def bulletShoot(self,x):
-		#print("BulletShoot")
-		mybull = Bullet(x.centerx,x.centery,x.dam)
+	def bulletShoot(self,mini,tow):
+		print("BulletShoot")
+		mybull = Bullet(tow.centery,tow.centerx,tow.dam)
+		mypbull = Bullet(mini.movingY,mini.movingX+50,tow.dam)
 		self.bullets.append(mybull)
-	#while thing == 1:
-		for b in self.bullets:
-			#print("Bullet",b.mX,b.mY)
-			b.move(10)
+		self.pbullet.append(mypbull)
+	
+		for b,c in zip(self.bullets,self.pbullet):
+			print(b.mX,"BeforeX")
+			if(c.mX < tow.centerx):
+				b.mX = b.mX - mini.speed
+			elif(c.mX > tow.centerx):
+				b.mX = b.mX + mini.speed
+			else:
+				print("Pass")
+				pass
+			print(b.mX,"AfterX")
 
-		for bullet in self.bullets:
-			if(bullet.mX < 0):
-				self.bullets.remove(bullet)
+			print(b.mY,"BeforeY")
+			if(c.mY < tow.centery):
+				b.mY = b.mY - mini.speed
+			elif(c.mY > tow.centery):
+				b.mY = b.mY + mini.speed
+			else:
+				print("Psss")
+				pass
+			print(b.mY,"AfterY")
+	
+			
+		for b,c in zip(self.bullets,self.pbullet):
+			if(b.mX >= c.mX and b.mY >= c.mY):
+				self.bullets.remove(b)
+				self.pbullet.remove(c)
+				
 
 		self.windowSurface.blit(self.filler,(0,0))
 
-		for bullet in self.bullets:
-			self.windowSurface.blit(constants.BULLET,pygame.Rect(bullet.mY,bullet.mX,0,0))
+		for b in self.bullets:
+			self.windowSurface.blit(constants.BULLET,pygame.Rect(b.mY,b.mX,0,0))
 
-		pygame.display.flip()
-		pygame.time.delay(100)
-
-
-
+		#pygame.display.flip()
+		#pygame.time.delay(100)
 
 
 	def __init__(self,grid):
@@ -263,7 +312,11 @@ class Map:
 		else:
 			self.screenHeight = 640
 
-		self.level = 1
+		self.pbullet =[]
+		self.money = 100
+		self.score = 0
+		self.lives = 20
+		self.level = 0
 		self.bullets = []
 		self.grid = [] # Creates empty list to hold Game Grid
 		self.size = (self.screenWidth,self.screenHeight)
@@ -276,3 +329,4 @@ class Map:
 		self.xlist, self.ylist = self.makeListWH(self.screenTileW+1,self.screenTileH+1)
 		self.exbutton = [self.xlist[1],self.ylist[27],self.width*3+self.xlist[1],self.height*2+self.ylist[27]]
 		self.exbutton2 = [self.xlist[6],self.ylist[27],self.width*3+self.xlist[6],self.height*2+self.ylist[27]]
+		self.bool = False

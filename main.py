@@ -30,7 +30,9 @@ def main(arg):
 		cswitch = pygame.key.get_pressed()[K_c]
 		pswitch = pygame.key.get_pressed()[K_p]
 		if(pswitch == 1):
-			while True:
+			print ("Score :", level.score)
+			level.bool = True
+			while level.bool is True:
 				if(t_minions <= 10):
 					minions.append(Minions(level))
 					level.moveX(minions)
@@ -39,21 +41,29 @@ def main(arg):
 					mousex, mousey = pygame.mouse.get_pos()
 					#print("MOUSE",mousex,mousey)
 					level.moveX(minions)
+				level.live_out()
+				level.score_out()
+				#level.money_out()
+				#level.blit_update()
+				if(not minions):
+					level.bool = False
+					level.level = level.level + 1
+					t_minions = 1
+					print("success")
 				for x in range(len(minions)):
 					print(minions[x].HP)
 				print('\n')
 				for x in minions:
 					for y in towerArray:
 						if(y.pingTower(x) is True):
-							#level.bulletShoot(y)
+							level.bulletShoot(x,y)
 							if(y.damMini(x) is True):
+								level.score = level.score + x.score
+								level.score_out()
 								minions.remove(x)
 							break
 					break
-
-
-
-
+				level.blit_update()
 
 
 		if(gswitch == 1):
@@ -67,11 +77,18 @@ def main(arg):
 			if(exswitch is True and event.type is pygame.MOUSEBUTTONDOWN):
 				mousex, mousey = pygame.mouse.get_pos()
 				cord = level.getGridCord(mousex,mousey)
+				temporary = Tower(1)
 				if (level.canPutTower(cord[0],cord[1]) is True):
-					level.windowSurface.blit(constants.REDTOWER,(level.xlist[cord[0]],level.xlist[cord[1]]))
-					level.grid[cord[1]][cord[0]] = '5'
-					mytower = Tower(1,level.xlist[cord[1]],level.xlist[cord[0]])
-					towerArray.append(mytower)
+					if(level.money - temporary.cost) >= 0 :
+						level.windowSurface.blit(constants.REDTOWER,(level.xlist[cord[0]],level.xlist[cord[1]]))
+						level.grid[cord[1]][cord[0]] = '5'
+						mytower = Tower(1,level.xlist[cord[1]],level.xlist[cord[0]])
+						towerArray.append(mytower)
+						level.money = level.money - mytower.cost
+						#level.money_out()
+						print("MONEYS",level.money)
+					else:
+						print("Insufficient funds")
 				exswitch = False
 				level.drawMap()
 

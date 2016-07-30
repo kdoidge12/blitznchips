@@ -23,6 +23,6 @@ SPACE = pygame.image.load("space.jpg")
 BULLET = pygame.image.load("sim.png")
 #Minion Info
 #minions = [[Level,name, 'imagefile', HP, Move_Speed],....]
-minions = [{'level': 1,'name': "A", 'image': 'clg.png', 'hp': 10, 'move' : 0.1},
-		   {'level': 2,'name': "B", 'image': 'clg.png', 'hp': 13, 'move' : 0.2},
-		   {'level': 3,'name': "C", 'image': 'clg.png', 'hp': 17, 'move' : 0.3}]
+minions = [{'level': 1,'name': "A", 'image': 'clg.png', 'hp': 10, 'move' : 10, 'score': 100},
+		   {'level': 2,'name': "B", 'image': 'clg.png', 'hp': 100, 'move' : 10, 'score': 135},
+		   {'level': 3,'name': "C", 'image': 'clg.png', 'hp': 17, 'move' : 10, 'score': 180}]
