@@ -56,32 +56,6 @@ class Map:
 		if(self.grid[coordinate[1]][coordinate[0]] == "5"):
 			minions.remove(x)
 			self.lives = self.lives - 1
-			#self.updateLives()
-			#self.live_out()
-			#self.updateLives()
-
-
-	def live_out(self):
-		l_c = "Lives:"+str(self.lives)
-		font = pygame.font.SysFont("arial",24)
-		label = font.render((l_c),1,(0,0,0))
-		self.windowSurface.blit(self.filler,(0,0))
-		self.windowSurface.blit(label,(725,650))
-		pygame.display.update()
-
-	def score_out(self):
-		s_c = "Score:"+str(self.score)
-		font = pygame.font.SysFont("arial",24)
-		label = font.render((s_c),1,(0,0,0))
-		self.windowSurface.blit(label,(725,700))
-		pygame.display.update()
-
-	def money_out(self):
-		m_c = "Money:"+str(self.money)
-		font = pygame.font.SysFont("arial",24)
-		label = font.render((m_c),1,(0,0,0))
-		self.windowSurface.blit(label,(725,750))
-		pygame.display.update()
 
 	def blit_update(self):
 		pygame.display.update()
@@ -98,9 +72,6 @@ class Map:
 				self.windowSurface.blit(constants.man,(x.movingX,x.movingY))
 				x.movingX = x.movingX + (25*mul)
 			self.live_check(minions, x)
-			#pygame.display.update()
-		#pygame.display.update()
-		#pygame.time.delay(100)
 
 	def multi25W(self,x):
 		return x * self.width
@@ -272,6 +243,26 @@ class Map:
 		fonts.Draw(self.windowSurface, 'arial', 15, 'SCORE', (self.xlist[15], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 		fonts = FontTemplate(('arial', 15))
 		fonts.Draw(self.windowSurface, 'arial', 15, 'MONEY', (self.xlist[21], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		rect = pygame.Rect(self.xlist[27], self.ylist[26], self.width * 11, self.height * 4 )
+		pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 2)
+
+	def drawTowerInfo(self, type):
+		if type == 1:
+			damage = '1'
+			radius = '75'
+			cost = '25'
+			speed = 'Medium'
+		elif type == 2:
+			damage = '10'
+			radius = '150'
+			cost = '75'
+			speed = 'Fast'
+		fonts = FontTemplate(('arial', 12))
+		fonts.Draw(self.windowSurface, 'arial', 12, 'DAMAGE: ' + damage, (self.xlist[29], self.ylist[26]), constants.WHITE, 'center', 'center', True)
+		fonts.Draw(self.windowSurface, 'arial', 12, 'RADIUS: ' + radius, (self.xlist[29], self.ylist[27]), constants.WHITE, 'center', 'center', True)
+		fonts.Draw(self.windowSurface, 'arial', 12, 'COST: ' + cost, (self.xlist[29], self.ylist[28]), constants.WHITE, 'center', 'center', True)
+		fonts.Draw(self.windowSurface, 'arial', 12, 'SPEED: ' + speed, (self.xlist[29], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		pygame.display.update()
 
 	def drawStats(self):
 		fonts = FontTemplate(('arial', 15))
@@ -440,14 +431,9 @@ class Map:
 		for b in self.bullets:
 			self.windowSurface.blit(constants.BULLET,pygame.Rect(b.mY,b.mX,0,0))
 
-		#pygame.display.flip()
-		#pygame.time.delay(100)
-
-
 	def __init__(self,grid, money, score, lives):
 		pygame.init()
 		infoObject = pygame.display.Info()
-		#print(infoObject)
 		##################################################
 		#These lines test the current screen size and    #
 		#then pick a appropriate window size for the game#

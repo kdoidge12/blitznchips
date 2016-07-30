@@ -33,48 +33,45 @@ def main(arg):
 		gswitch = pygame.key.get_pressed()[K_g]
 		cswitch = pygame.key.get_pressed()[K_c]
 		pswitch = pygame.key.get_pressed()[K_p]
-		if(pswitch == 1):
-			print ("Score :", level.score)
-			level.bool = True
-			while level.bool is True:
-				if(t_minions <= 10):
-					minions.append(Minions(level))
-					level.moveX(minions)
-					t_minions = t_minions + 1
-				else:
-					mousex, mousey = pygame.mouse.get_pos()
-					#print("MOUSE",mousex,mousey)
-					level.moveX(minions)
-				#level.live_out()
-				#level.score_out()
-				level.updateLives()
-				level.updateScore()
-				level.updateMoney()
+		while level.bool is True:
+			if(t_minions <= 10):
+				minions.append(Minions(level))
+				level.moveX(minions)
+				t_minions = t_minions + 1
+			else:
+				mousex, mousey = pygame.mouse.get_pos()
+				#print("MOUSE",mousex,mousey)
+				level.moveX(minions)
+			#level.live_out()
+			#level.score_out()
+			level.updateLives()
+			level.updateScore()
+			level.updateMoney()
 				#level.money_out()
 				#level.blit_update()
-				if(not minions):
-					level.bool = False
-					level.level = level.level + 1
-					t_minions = 1
-					print("success")
-				for x in range(len(minions)):
-					print(minions[x].HP)
-				print('\n')
-				for x in minions:
-					for y in towerArray:
-						if(y.pingTower(x) is True):
-							#level.bulletShoot(x,y)
-							if(y.damMini(x) is True):
-								level.score = level.score + x.score
-								level.updateScore()
-								#level.score_out()
-								level.money = level.money + x.value
-								#level.updateMoney()
-								minions.remove(x)
-								print("LEVELmoney", level.money)
-							break
-					break
-				level.blit_update()
+			if(not minions):
+				level.bool = False
+				level.level = level.level + 1
+				t_minions = 1
+				print("success")
+			for x in range(len(minions)):
+				print(minions[x].HP)
+			print('\n')
+			for x in minions:
+				for y in towerArray:
+					if(y.pingTower(x) is True):
+						#level.bulletShoot(x,y)
+						if(y.damMini(x) is True):
+							level.score = level.score + x.score
+							level.updateScore()
+							#level.score_out()
+							level.money = level.money + x.value
+							#level.updateMoney()
+							minions.remove(x)
+							print("LEVELmoney", level.money)
+						break
+				break
+			level.blit_update()
 
 
 		if(gswitch == 1):
@@ -132,12 +129,14 @@ def main(arg):
 			cord = level.getGridCord(mousex,mousey)
 			if((level.exbutton[0] <= level.xlist[cord[0]] and level.xlist[cord[0]] < level.exbutton[2]) and (level.exbutton[1] <= level.ylist[cord[1]] and level.ylist[cord[1]] < level.exbutton[3])):
 				level.drawGrid()
+				level.drawTowerInfo(1)
 				level.drawRange(towerArray)
 				level.drawRedButton(1)
 				exswitch = True
 
 			elif((level.exbutton2[0] <= level.xlist[cord[0]] and level.xlist[cord[0]] < level.exbutton2[2]) and (level.exbutton2[1] <= level.ylist[cord[1]] and level.ylist[cord[1]] < level.exbutton2[3])):
 				level.drawGrid()
+				level.drawTowerInfo(2)
 				level.drawRange(towerArray)
 				level.drawBlueButton(1)
 				exswitch2 = True
@@ -145,6 +144,7 @@ def main(arg):
 			elif((level.startbutton[0] <= level.xlist[cord[0]] and level.xlist[cord[0]] < level.startbutton[2]) and (level.startbutton[1] <= level.ylist[cord[1]] and level.ylist[cord[1]] < level.startbutton[3])):
 				#level.popupWindow('Wave Starting')
 				level.drawStartButton(1)
+				level.bool = True
 				startswitch = True
 
 			elif((level.helpbutton[0] <= level.xlist[cord[0]] and level.xlist[cord[0]] < level.helpbutton[2]) and (level.helpbutton[1] <= level.ylist[cord[1]] and level.ylist[cord[1]] < level.helpbutton[3])):
