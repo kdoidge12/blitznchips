@@ -272,9 +272,9 @@ class Map:
 
 	def drawStats(self):
 		fonts = FontTemplate(('arial', 15))
-		fonts.Draw(self.windowSurface, 'arial', 15, str(self.lives), (self.xlist[12], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		fonts.Draw(self.windowSurface, 'arial', 15, str(" "), (self.xlist[12], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 		fonts = FontTemplate(('arial', 15))
-		fonts.Draw(self.windowSurface, 'arial', 15, str(self.score), (self.xlist[18], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		fonts.Draw(self.windowSurface, 'arial', 15, str(" "), (self.xlist[18], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 		fonts = FontTemplate(('arial', 15))
 		fonts.Draw(self.windowSurface, 'arial', 15, str(self.money), (self.xlist[24], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 
@@ -299,7 +299,7 @@ class Map:
 	def updateScore(self):
 		fonts = FontTemplate(('arial', 15))
 		fonts.Draw(self.windowSurface, 'arial', 15, str(self.score), (self.xlist[18], self.ylist[29]), constants.WHITE, 'center', 'center', True)
-
+		pygame.display.update()
 
 	##########################################
 	#draws all buttons onto the map          #

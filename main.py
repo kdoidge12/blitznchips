@@ -62,7 +62,7 @@ def main(arg):
 				for x in minions:
 					for y in towerArray:
 						if(y.pingTower(x) is True):
-							level.bulletShoot(x,y)
+							#level.bulletShoot(x,y)
 							if(y.damMini(x) is True):
 								level.score = level.score + x.score
 								level.updateScore()
