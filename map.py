@@ -178,6 +178,9 @@ class Map:
 		self.drawButtons()
 		pygame.display.update()
 		self.filler = pygame.Surface.copy(self.windowSurface)
+		self.updateMoney()
+		self.updateScore()
+		self.updateLives()
 
 
 
@@ -276,7 +279,7 @@ class Map:
 		fonts = FontTemplate(('arial', 15))
 		fonts.Draw(self.windowSurface, 'arial', 15, str(" "), (self.xlist[18], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 		fonts = FontTemplate(('arial', 15))
-		fonts.Draw(self.windowSurface, 'arial', 15, str(self.money), (self.xlist[24], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		fonts.Draw(self.windowSurface, 'arial', 15, str(" "), (self.xlist[24], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 
 	##########################################
 	#pass in money to update money on menu   #
@@ -284,6 +287,7 @@ class Map:
 	def updateMoney(self):
 		fonts = FontTemplate(('arial', 15))
 		fonts.Draw(self.windowSurface, 'arial', 15, str(self.money), (self.xlist[24], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		pygame.display.update()
 
 	##########################################
 	#pass in lives to update lives on menu   #

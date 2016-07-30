@@ -13,6 +13,7 @@ class Minions():
 		self.HP = constants.minions[object.level]['hp']
 		self.speed = constants.minions[object.level]['move']
 		self.score = constants.minions[object.level]['score']
+		self.value = constants.minions[object.level]['value']
 		self.movingX = object.xlist[6]
 		self.movingY = object.ylist[3]
 

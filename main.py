@@ -49,6 +49,7 @@ def main(arg):
 				#level.score_out()
 				level.updateLives()
 				level.updateScore()
+				level.updateMoney()
 				#level.money_out()
 				#level.blit_update()
 				if(not minions):
@@ -67,7 +68,10 @@ def main(arg):
 								level.score = level.score + x.score
 								level.updateScore()
 								#level.score_out()
+								level.money = level.money + x.value
+								#level.updateMoney()
 								minions.remove(x)
+								print("LEVELmoney", level.money)
 							break
 					break
 				level.blit_update()
