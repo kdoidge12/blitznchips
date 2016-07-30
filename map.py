@@ -103,10 +103,14 @@ class Map:
 	def popGrid(self,f):
 		row = 0
 		for xy in (f):
-			self.grid.append([])
-			for dxdy in xy:
-				self.grid[row].append(dxdy)
-			row = row + 1
+			if(self.startx is 0):
+				self.startx = int(xy[0])
+				self.starty = int(xy[1])
+			else:
+				self.grid.append([])
+				for dxdy in xy:
+					self.grid[row].append(dxdy)
+				row = row + 1
 
 
 ###################################################
@@ -448,6 +452,8 @@ class Map:
 		else:
 			self.screenHeight = 640
 
+		self.startx = 0
+		self.starty =0
 		self.pbullet =[]
 		self.money = money
 		self.score = score

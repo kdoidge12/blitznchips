@@ -14,8 +14,8 @@ class Minions():
 		self.speed = constants.minions[object.level]['move']
 		self.score = constants.minions[object.level]['score']
 		self.value = constants.minions[object.level]['value']
-		self.movingX = object.xlist[6]
-		self.movingY = object.ylist[3]
+		self.movingX = object.xlist[object.startx]
+		self.movingY = object.ylist[object.starty]
 
 
 class Bullet():
