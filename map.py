@@ -6,6 +6,37 @@ import constants
 from minion import Bullet
 #write a function that will return the current updated map in blit form
 
+class FontTemplate:
+    def __init__(self, fontype_size):
+        self.font_pair = ()
+        fontFullFileName = pygame.font.match_font(fontype_size[0])
+        self.font_pair = pygame.font.Font(fontFullFileName, fontype_size[1])
+
+    def Draw(self, surface, fontName, size, text, rectOrPosToDrawTo, color,
+            alignHoriz='left', alignVert='top', antialias=False):
+        pair = (fontName, size)
+        fontSurface = self.font_pair.render(text, antialias, color)
+        if isinstance(rectOrPosToDrawTo, tuple):
+            surface.blit(fontSurface, rectOrPosToDrawTo)
+        elif isinstance(rectOrPosToDrawTo, pygame.Rect):
+            fontRect = fontSurface.get_rect()
+            # align horiz
+            if alignHoriz == 'center':
+                fontRect.centerx = rectOrPosToDrawTo.centerx
+            elif alignHoriz == 'right':
+                fontRect.right = rectOrPosToDrawTo.right
+            else:
+                fontRect.x = rectOrPosToDrawTo.x  # left
+            # align vert
+            if alignVert == 'center':
+                fontRect.centery = rectOrPosToDrawTo.centery
+            elif alignVert == 'bottom':
+                fontRect.bottom = rectOrPosToDrawTo.bottom
+            else:
+                fontRect.y = rectOrPosToDrawTo.y  # top
+
+            surface.blit(fontSurface, fontRect)
+
 class Map:
 	def multi(self, x,y):
 		coordinate = self.getGridCord(x,y)
@@ -25,13 +56,16 @@ class Map:
 		if(self.grid[coordinate[1]][coordinate[0]] == "5"):
 			minions.remove(x)
 			self.lives = self.lives - 1
-			self.live_out()
+			#self.updateLives()
+			#self.live_out()
+			#self.updateLives()
+
 
 	def live_out(self):
 		l_c = "Lives:"+str(self.lives)
 		font = pygame.font.SysFont("arial",24)
 		label = font.render((l_c),1,(0,0,0))
-		#self.windowSurface.blit(self.filler,(0,0))
+		self.windowSurface.blit(self.filler,(0,0))
 		self.windowSurface.blit(label,(725,650))
 		pygame.display.update()
 
@@ -63,7 +97,7 @@ class Map:
 			else:
 				self.windowSurface.blit(constants.man,(x.movingX,x.movingY))
 				x.movingX = x.movingX + (25*mul)
-			self.live_check(minions,x)
+			self.live_check(minions, x)
 			#pygame.display.update()
 		#pygame.display.update()
 		#pygame.time.delay(100)
@@ -137,7 +171,10 @@ class Map:
 				x = x + self.height + margin
 			y=y+self.width + margin
 			x = 0
-
+		rect = pygame.Rect(self.xlist[1], self.ylist[1], self.width * 38, self.height * 24)
+		pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+		self.drawMenu()
+		self.drawStats()
 		self.drawButtons()
 		pygame.display.update()
 		self.filler = pygame.Surface.copy(self.windowSurface)
@@ -216,6 +253,53 @@ class Map:
 		else:
 			return False
 
+	##########################################
+	#draws all static font on the map        #
+	##########################################
+	def drawMenu(self):
+		y = self.screenHeight - (self.height * 26)
+		fonts = FontTemplate(('arial', 15))
+		rect = pygame.Rect(self.width, self.height * 25, self.width *38, y)
+		pygame.draw.rect(self.windowSurface, constants.BLACK, rect)
+		pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+		fonts.Draw(self.windowSurface, 'arial', 15, 'TOWERS', (self.width * 2, ((self.height * 25) + self.width / 2) ), constants.WHITE, 'left', 'center', True)
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, 'LIVES', (self.xlist[9], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, 'SCORE', (self.xlist[15], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, 'MONEY', (self.xlist[21], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+
+	def drawStats(self):
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, str(self.lives), (self.xlist[12], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, str(self.score), (self.xlist[18], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, str(self.money), (self.xlist[24], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+
+	##########################################
+	#pass in money to update money on menu   #
+	##########################################
+	def updateMoney(self):
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, str(self.money), (self.xlist[24], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+
+	##########################################
+	#pass in lives to update lives on menu   #
+	##########################################
+	def updateLives(self):
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, str(self.lives), (self.xlist[12], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+		pygame.display.update()
+
+	##########################################
+	#pass in score to update score on menu   #
+	##########################################
+	def updateScore(self):
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, str(self.score), (self.xlist[18], self.ylist[29]), constants.WHITE, 'center', 'center', True)
+
 
 	##########################################
 	#draws all buttons onto the map          #
@@ -223,6 +307,68 @@ class Map:
 	def drawButtons(self):
 		self.drawRedButton(0)
 		self.drawBlueButton(0)
+		self.drawStartButton(0)
+		self.drawHelpButton(0)
+		self.drawReturnButton(0)
+
+	##########################################
+	#just draws start button x is on or off#
+	##########################################
+	def drawStartButton(self, x):
+		fonts = FontTemplate(('arial', 15))
+		rect = pygame.Rect(self.startbutton[0], self.startbutton[1], self.width*4+self.xlist[1], self.height*2)
+		if(x is 0):
+			pygame.draw.rect(self.windowSurface, constants.BLACK, rect)
+			pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+			fonts.Draw(self.windowSurface, 'arial', 15, 'START', rect, constants.WHITE, 'center', 'center', True)
+		else:
+			pygame.draw.rect(self.windowSurface, constants.RICK_GREEN, rect)
+			pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+			fonts.Draw(self.windowSurface, 'arial', 15, 'START', rect, constants.WHITE, 'center', 'center', True)
+
+
+	##########################################
+	#just draws mainmenu button x is on or off#
+	##########################################
+	def drawReturnButton(self, x):
+		fonts = FontTemplate(('arial', 15))
+		rect = pygame.Rect(self.returnbutton[0], self.returnbutton[1], self.width*4+self.xlist[1], self.height*2)
+		if(x is 0):
+			pygame.draw.rect(self.windowSurface, constants.BLACK, rect)
+			pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+			fonts.Draw(self.windowSurface, 'arial', 15, 'MAIN MENU', rect, constants.WHITE, 'center', 'center', True)
+		else:
+			pygame.draw.rect(self.windowSurface, constants.RICK_GREEN, rect)
+			pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+			fonts.Draw(self.windowSurface, 'arial', 15, 'MAIN MENU', rect, constants.WHITE, 'center', 'center', True)
+
+
+	##########################################
+	#just draws mainmenu button x is on or off#
+	##########################################
+	def popupWindow(self, text):
+		x = self.screenWidth / 3
+		fonts = FontTemplate(('arial', 18))
+		rect = pygame.Rect(x, self.ylist[12], x, 3 * self.height)
+		pygame.draw.rect(self.windowSurface, constants.BLACK, rect)
+		pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+		fonts.Draw(self.windowSurface, 'arial', 18, text, rect, constants.WHITE, 'center', 'center', True)
+		pygame.display.flip()
+
+	##########################################
+	#just draws help button x is on or off#
+	##########################################
+	def drawHelpButton(self, x):
+		fonts = FontTemplate(('arial', 15))
+		rect = pygame.Rect(self.helpbutton[0], self.helpbutton[1], self.width*4+self.xlist[1], self.height*2)
+		if(x is 0):
+			pygame.draw.rect(self.windowSurface, constants.BLACK, rect)
+			pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+			fonts.Draw(self.windowSurface, 'arial', 15, 'HELP', rect, constants.WHITE, 'center', 'center', True)
+		else:
+			pygame.draw.rect(self.windowSurface, constants.RICK_GREEN, rect)
+			pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
+			fonts.Draw(self.windowSurface, 'arial', 15, 'HELP', rect, constants.WHITE, 'center', 'center', True)
 
 
 	##########################################
@@ -230,10 +376,10 @@ class Map:
 	##########################################
 	def drawRedButton(self,x):
 		if(x is 0):
-			exam = pygame.image.load("ex2.jpg")
+			exam = pygame.image.load("r.jpg")
 			self.windowSurface.blit(exam,(self.exbutton[0],self.exbutton[1]))
 		else:
-			exam = pygame.image.load("ex.jpg")
+			exam = pygame.image.load("r.jpg")
 			self.windowSurface.blit(exam,(self.exbutton[0],self.exbutton[1]))
 		#pygame.display.update()
 
@@ -243,10 +389,10 @@ class Map:
 	###########################################
 	def drawBlueButton(self,x):
 			if(x is 0):
-				exam2 = pygame.image.load("ex2.jpg")
+				exam2 = pygame.image.load("ew.jpg")
 				self.windowSurface.blit(exam2,(self.exbutton2[0],self.exbutton2[1]))
 			else:
-				exam2 = pygame.image.load("ex.jpg")
+				exam2 = pygame.image.load("ew.jpg")
 				self.windowSurface.blit(exam2,(self.exbutton2[0],self.exbutton2[1]))
 			#pygame.display.update()
 
@@ -256,7 +402,7 @@ class Map:
 		mypbull = Bullet(mini.movingY,mini.movingX+50,tow.dam)
 		self.bullets.append(mybull)
 		self.pbullet.append(mypbull)
-	
+
 		for b,c in zip(self.bullets,self.pbullet):
 			print(b.mX,"BeforeX")
 			if(c.mX < tow.centerx):
@@ -277,13 +423,13 @@ class Map:
 				print("Psss")
 				pass
 			print(b.mY,"AfterY")
-	
-			
+
+
 		for b,c in zip(self.bullets,self.pbullet):
 			if(b.mX >= c.mX and b.mY >= c.mY):
 				self.bullets.remove(b)
 				self.pbullet.remove(c)
-				
+
 
 		self.windowSurface.blit(self.filler,(0,0))
 
@@ -294,7 +440,7 @@ class Map:
 		#pygame.time.delay(100)
 
 
-	def __init__(self,grid):
+	def __init__(self,grid, money, score, lives):
 		pygame.init()
 		infoObject = pygame.display.Info()
 		#print(infoObject)
@@ -313,9 +459,9 @@ class Map:
 			self.screenHeight = 640
 
 		self.pbullet =[]
-		self.money = 100
-		self.score = 0
-		self.lives = 20
+		self.money = money
+		self.score = score
+		self.lives = lives
 		self.level = 0
 		self.bullets = []
 		self.grid = [] # Creates empty list to hold Game Grid
@@ -327,6 +473,9 @@ class Map:
 		self.screenTileW = self.screenWidth / self.width
 		self.screenTileH = self.screenHeight / self.height
 		self.xlist, self.ylist = self.makeListWH(self.screenTileW+1,self.screenTileH+1)
-		self.exbutton = [self.xlist[1],self.ylist[27],self.width*3+self.xlist[1],self.height*2+self.ylist[27]]
-		self.exbutton2 = [self.xlist[6],self.ylist[27],self.width*3+self.xlist[6],self.height*2+self.ylist[27]]
+		self.exbutton = [self.xlist[2],self.ylist[27],self.width+self.xlist[2],self.height+self.ylist[27]]
+		self.exbutton2 = [self.xlist[5],self.ylist[27],self.width*2+self.xlist[5],self.height*2+self.ylist[27]]
+		self.startbutton = [self.xlist[9],self.ylist[26],self.width*5+self.xlist[9],self.height*2+self.ylist[26]]
+		self.helpbutton = [self.xlist[15],self.ylist[26],self.width*5+self.xlist[15],self.height*2+self.ylist[26]]
+		self.returnbutton = [self.xlist[21],self.ylist[26],self.width*5+self.xlist[21],self.height*2+self.ylist[26]]
 		self.bool = False

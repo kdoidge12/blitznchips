@@ -14,7 +14,7 @@ class Tower(Map):
 		self.radius = 0
 		self.cost = 0
 		self.setType()
-		
+
 	def setType(self):
 		if(self.ttype is 1 ):
 			print("print", self.ttype)
@@ -27,7 +27,7 @@ class Tower(Map):
 			self.dam = 10
 			self.radius = 150
 			self.cost = 75
-			
+
 	def setCenter(self,num):
 		x = (num + (self.ttype * 25) + num)/2
 		return x
@@ -56,6 +56,6 @@ class Tower(Map):
 			return False
 
 
-		
+
 
 

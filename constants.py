@@ -12,6 +12,8 @@ WHITE = (255,255,255)
 GRAY = (100,100,100)
 YELLOW = (255,255,0)
 BLACK = (0,0,0)
+RICK_GREEN = (20, 184, 87)
+RICK_PURPLE = (78, 11, 74)
 
 man = pygame.image.load("sim.png")
 

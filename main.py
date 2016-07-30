@@ -12,13 +12,17 @@ def main(arg):
 	clock = pygame.time.Clock()
 	bullets = []
 
-	level = Map(f)
+	#init Map(grid, money, score, lives) depending on level
+	level = Map(f, 200, 0, 20)
 
 	level.popGrid(f)
 	level.drawMap()
 
 	exswitch = False
 	exswitch2 = False
+	startswitch = False
+	helpswitch = False
+	returnswitch = False
 	towerArray = []
 	minions = []
 	t_minions = 1
@@ -41,8 +45,10 @@ def main(arg):
 					mousex, mousey = pygame.mouse.get_pos()
 					#print("MOUSE",mousex,mousey)
 					level.moveX(minions)
-				level.live_out()
-				level.score_out()
+				#level.live_out()
+				#level.score_out()
+				level.updateLives()
+				level.updateScore()
 				#level.money_out()
 				#level.blit_update()
 				if(not minions):
@@ -59,7 +65,8 @@ def main(arg):
 							level.bulletShoot(x,y)
 							if(y.damMini(x) is True):
 								level.score = level.score + x.score
-								level.score_out()
+								level.updateScore()
+								#level.score_out()
 								minions.remove(x)
 							break
 					break
@@ -85,7 +92,7 @@ def main(arg):
 						mytower = Tower(1,level.xlist[cord[1]],level.xlist[cord[0]])
 						towerArray.append(mytower)
 						level.money = level.money - mytower.cost
-						#level.money_out()
+						level.updateMoney()
 						print("MONEYS",level.money)
 					else:
 						print("Insufficient funds")
@@ -95,17 +102,24 @@ def main(arg):
 		if(exswitch2 is True and event.type is pygame.MOUSEBUTTONDOWN):
 			mousex, mousey = pygame.mouse.get_pos()
 			cord = level.getGridCord(mousex,mousey)
+			temporary = Tower(2)
 			if (level.canPutTower(cord[0],cord[1]) is True and level.canPutTower(cord[0],cord[1]+1) is True and level.canPutTower(cord[0]+1,cord[1]+1) is True and level.canPutTower(cord[0]+1,cord[1]) is True):
-				pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]],level.width,level.height),0)
-				pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]+1],level.width,level.height),0)
-				pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]+1],level.width,level.height),0)
-				pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]],level.width,level.height),0)
-				level.grid[cord[1]][cord[0]] = '6'
-				level.grid[cord[1]][cord[0]+1] = '6'
-				level.grid[cord[1]+1][cord[0]+1] = '6'
-				level.grid[cord[1]+1][cord[0]] = '6'
-				mytower = Tower(2,level.xlist[cord[1]],level.xlist[cord[0]])
-				towerArray.append(mytower)
+				if((level.money - temporary.cost) >= 0):
+					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]],level.width,level.height),0)
+					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]+1],level.width,level.height),0)
+					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]+1],level.width,level.height),0)
+					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]],level.width,level.height),0)
+					level.grid[cord[1]][cord[0]] = '6'
+					level.grid[cord[1]][cord[0]+1] = '6'
+					level.grid[cord[1]+1][cord[0]+1] = '6'
+					level.grid[cord[1]+1][cord[0]] = '6'
+					mytower = Tower(2,level.xlist[cord[1]],level.xlist[cord[0]])
+					towerArray.append(mytower)
+					level.money = level.money - mytower.cost
+					level.updateMoney()
+					print("MONEYS",level.money)
+				else:
+					print("Insufficient funds")
 			exswitch2 = False
 			level.drawMap()
 
@@ -123,11 +137,33 @@ def main(arg):
 				level.drawRange(towerArray)
 				level.drawBlueButton(1)
 				exswitch2 = True
+
+			elif((level.startbutton[0] <= level.xlist[cord[0]] and level.xlist[cord[0]] < level.startbutton[2]) and (level.startbutton[1] <= level.ylist[cord[1]] and level.ylist[cord[1]] < level.startbutton[3])):
+				#level.popupWindow('Wave Starting')
+				level.drawStartButton(1)
+				startswitch = True
+
+			elif((level.helpbutton[0] <= level.xlist[cord[0]] and level.xlist[cord[0]] < level.helpbutton[2]) and (level.helpbutton[1] <= level.ylist[cord[1]] and level.ylist[cord[1]] < level.helpbutton[3])):
+				level.popupWindow('Controls key g: display grid ')
+				level.drawHelpButton(1)
+				helpswitch = True
+
+			elif((level.returnbutton[0] <= level.xlist[cord[0]] and level.xlist[cord[0]] < level.returnbutton[2]) and (level.returnbutton[1] <= level.ylist[cord[1]] and level.ylist[cord[1]] < level.returnbutton[3])):
+				level.drawReturnButton(1)
+				pygame.quit()
+				sys.exit()
+				returnswitch = True
 			else:
 				level.drawRedButton(0)
 				exswitch2 = False
 				level.drawBlueButton(0)
 				exswitch = False
+				level.drawStartButton(0)
+				level.drawReturnButton(0)
+				level.drawHelpButton(0)
+				startswitch = False
+				helpswitch = False
+				returnswitch = False
 
 
 
