@@ -37,7 +37,6 @@ class Menu(QtWidgets.QWidget):
 
     def setup(self):
         self.start_btn = StartBtn(self)
-        self.help_btn = HelpBtn(self)
         self.quit_btn = QuitBtn(self)
         self.vbox = QtWidgets.QVBoxLayout()
         self.setLayout(self.vbox)
@@ -49,7 +48,6 @@ class Menu(QtWidgets.QWidget):
         self.combo.currentIndexChanged.connect(self.level_selection)
         self.vbox.addWidget(self.start_btn)
         self.vbox.addWidget(self.combo)
-        self.vbox.addWidget(self.help_btn)
         self.vbox.addWidget(self.quit_btn)
         self.start_btn.clicked.connect(self.on_start)
         #self.plot_btn.clicked.connect(self.on_plot)

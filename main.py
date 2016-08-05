@@ -76,7 +76,7 @@ def main(arg):
 							try:
 								minions.remove(x)
 							except ValueError:
-								pass	
+								pass
 							print("LEVELmoney", level.money)
 						#break
 				break

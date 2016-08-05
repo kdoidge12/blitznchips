@@ -156,8 +156,8 @@ class Map:
 					pass
 					#image = constants.BLANK
 
-				
-				x = x + self.height 
+
+				x = x + self.height
 			y=y+self.width
 			x = 0
 		rect = pygame.Rect(self.xlist[1], self.ylist[1], self.width * 38, self.height * 24)
@@ -403,10 +403,10 @@ class Map:
 	##########################################
 	def drawRedButton(self,x):
 		if(x is 0):
-			exam = pygame.image.load("r.jpg")
+			exam = pygame.image.load("tower1.png")
 			self.windowSurface.blit(exam,(self.exbutton[0],self.exbutton[1]))
 		else:
-			exam = pygame.image.load("r.jpg")
+			exam = pygame.image.load("tower1.png")
 			self.windowSurface.blit(exam,(self.exbutton[0],self.exbutton[1]))
 		#pygame.display.update()
 
@@ -416,18 +416,18 @@ class Map:
 	###########################################
 	def drawBlueButton(self,x):
 			if(x is 0):
-				exam2 = pygame.image.load("ew.jpg")
+				exam2 = pygame.image.load("tower2.png")
 				self.windowSurface.blit(exam2,(self.exbutton2[0],self.exbutton2[1]))
 			else:
-				exam2 = pygame.image.load("ew.jpg")
+				exam2 = pygame.image.load("tower2.png")
 				self.windowSurface.blit(exam2,(self.exbutton2[0],self.exbutton2[1]))
 			#pygame.display.update()
 
 	def bulletShoot(self,mini,tow):
 		totalX = (mini.movingX - tow.centerx)/2
 		totalY = (mini.movingY - tow.centery)/2
-		mybull = Bullet(tow.centerx,tow.centery,tow.dam)		
-		myrect = pygame.draw.rect(self.windowSurface,tow.color,(mybull.mY,mybull.mX,tow.sizex,tow.sizey))		
+		mybull = Bullet(tow.centerx,tow.centery,tow.dam)
+		myrect = pygame.draw.rect(self.windowSurface,tow.color,(mybull.mY,mybull.mX,tow.sizex,tow.sizey))
 		myrect = myrect.move(totalX,totalY)
 		myrect = pygame.draw.rect(self.windowSurface,tow.color,myrect)
 		myrect = myrect.move(totalX,totalY)

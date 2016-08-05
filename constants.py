@@ -15,10 +15,10 @@ BLACK = (0,0,0)
 RICK_GREEN = (20, 184, 87)
 RICK_PURPLE = (78, 11, 74)
 
-man = pygame.image.load("sim.png")
+man = pygame.image.load("min.png")
 
-REDTOWER = pygame.image.load("mortyt.png")
-BLUETOWER = pygame.image.load("rickt.png")
+REDTOWER = pygame.image.load("tower1.png")
+BLUETOWER = pygame.image.load("tower2.png")
 GRASS = pygame.image.load("grass.jpg")
 WALL = pygame.image.load("wall.jpg")
 SPACE = pygame.image.load("space.jpg")
