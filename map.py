@@ -308,7 +308,7 @@ class Map:
     ##########################################
 	def updateLevel(self):
 		fonts = FontTemplate(('arial', 15))
-		fonts.Draw(self.windowSurface, 'arial', 15, str(self.level), (self.xlist[2], self.ylist[30]), constants.WHITE, 'center', 'center', True)
+		fonts.Draw(self.windowSurface, 'arial', 15, str(self.level+1), (self.xlist[2], self.ylist[30]), constants.WHITE, 'center', 'center', True)
 		pygame.display.update()
 
 

@@ -6,6 +6,8 @@ from tower import Tower
 from map import Map
 from minion import Minions
 import constants
+from map import FontTemplate
+#import easygui
 
 def main(arg):
 	f = file(arg,'r')
@@ -33,7 +35,7 @@ def main(arg):
 		gswitch = pygame.key.get_pressed()[K_g]
 		cswitch = pygame.key.get_pressed()[K_c]
 		pswitch = pygame.key.get_pressed()[K_p]
-		while level.bool is True:
+		while level.bool is True and level.lives is not 0:
 			if(t_minions <= 10):
 				minions.append(Minions(level))
 				level.moveX(minions)
@@ -82,7 +84,19 @@ def main(arg):
 				break
 			level.blit_update()
 
+		if(level.lives is 0):
+			fonts = FontTemplate(('arial', 15))
+			rect = pygame.Rect(level.screenWidth/2,level.screenHeight/2,300,150)
+			pygame.draw.rect(level.windowSurface, constants.RED, rect)
+			fonts.Draw(level.windowSurface, 'arial', 12, 'YOU SUCK!! (Main Menu to return)', rect, constants.WHITE, 'center', 'center', True)
+			level.blit_update()
 
+		if(level.level is 10):
+			fonts = FontTemplate(('arial', 15))
+			rect = pygame.Rect(level.screenWidth/2,level.screenHeight/2,300,150)
+			pygame.draw.rect(level.windowSurface, constants.GREEN, rect)
+			fonts.Draw(level.windowSurface, 'arial', 12, 'CONGRATS,YOU STILL SUCK! :)', rect, constants.WHITE, 'center', 'center', True)
+			level.blit_update()
 		if(gswitch == 1):
 			level.drawGrid()
 			level.drawRange(towerArray)
