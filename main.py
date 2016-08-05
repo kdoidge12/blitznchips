@@ -44,6 +44,7 @@ def main(arg):
 				level.moveX(minions)
 			#level.live_out()
 			#level.score_out()
+			level.updateLevel()
 			level.updateLives()
 			level.updateScore()
 			level.updateMoney()
@@ -52,7 +53,11 @@ def main(arg):
 			if(not minions):
 				level.bool = False
 				level.level = level.level + 1
+				level.moveX([])
 				level.updateLevel()
+				level.updateLives()
+				level.updateScore()
+				level.updateMoney()
 				t_minions = 1
 				print("success")
 			for x in range(len(minions)):
@@ -61,16 +66,19 @@ def main(arg):
 			for x in minions:
 				for y in towerArray:
 					if(y.pingTower(x) is True):
-						#level.bulletShoot(x,y)
+						level.bulletShoot(x,y)
 						if(y.damMini(x) is True):
 							level.score = level.score + x.score
 							level.updateScore()
 							#level.score_out()
 							level.money = level.money + x.value
 							#level.updateMoney()
-							minions.remove(x)
+							try:
+								minions.remove(x)
+							except ValueError:
+								pass	
 							print("LEVELmoney", level.money)
-						break
+						#break
 				break
 			level.blit_update()
 
@@ -108,13 +116,13 @@ def main(arg):
 			if (level.canPutTower(cord[0],cord[1]) is True and level.canPutTower(cord[0],cord[1]+1) is True and level.canPutTower(cord[0]+1,cord[1]+1) is True and level.canPutTower(cord[0]+1,cord[1]) is True):
 				if((level.money - temporary.cost) >= 0):
 					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]],level.width*2,level.height*2),0)
-					#pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]+1],level.width,level.height),0)
-					#pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]+1],level.width,level.height),0)
-					#pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]],level.width,level.height),0)
+					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]+1],level.width,level.height),0)
+					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]+1],level.width,level.height),0)
+					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]],level.width,level.height),0)
 					level.grid[cord[1]][cord[0]] = '6'
-					level.grid[cord[1]][cord[0]+1] = '6'
-					level.grid[cord[1]+1][cord[0]+1] = '6'
-					level.grid[cord[1]+1][cord[0]] = '6'
+					level.grid[cord[1]][cord[0]+1] = 'A'
+					level.grid[cord[1]+1][cord[0]+1] = 'A'
+					level.grid[cord[1]+1][cord[0]] = 'A'
 					mytower = Tower(2,level.xlist[cord[1]],level.xlist[cord[0]])
 					towerArray.append(mytower)
 					level.money = level.money - mytower.cost

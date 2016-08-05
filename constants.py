@@ -23,6 +23,7 @@ GRASS = pygame.image.load("grass.jpg")
 WALL = pygame.image.load("wall.jpg")
 SPACE = pygame.image.load("space.jpg")
 BULLET = pygame.image.load("sim.png")
+BLANK = pygame.image.load("blank.png")
 #Minion Info
 #minions = [[Level,name, 'imagefile', HP, Move_Speed],....]
 minions = [{'level': 1,'name': "A", 'image': 'clg.png', 'hp': 10, 'move' : 10, 'score': 100, 'value': 5},

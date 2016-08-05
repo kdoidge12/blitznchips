@@ -62,7 +62,7 @@ class Menu(QtWidgets.QWidget):
         elif(i == 2):
             cmd = 'python main.py map2.txt'
         elif (i == 3):
-            cmd = 'python main.py grid.txt'
+            cmd = 'python main.py map3.txt'
         self.process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
 
     def on_start(self):

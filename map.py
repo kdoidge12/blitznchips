@@ -53,7 +53,7 @@ class Map:
 
 	def live_check(self,minions,x):
 		coordinate = self.getGridCord(x.movingX,x.movingY)
-		if(self.grid[coordinate[1]][coordinate[0]] == "5"):
+		if(self.grid[coordinate[1]][coordinate[0]] == "B"):
 			minions.remove(x)
 			self.lives = self.lives - 1
 
@@ -127,29 +127,38 @@ class Map:
 	def drawMap(self):
 		x = 0
 		y = 0
-		margin = 0
 		for row in self.grid:
 			if not row:
 				row.pop()
 			for column in row:
 				if(column is "0"):
 					image = constants.GRASS
+					self.windowSurface.blit(image,(x,y))
 				if(column == "1"):
 					image = constants.SPACE
+					self.windowSurface.blit(image,(x,y))
 				if(column == "2"):
 					image = constants.WALL
-				if(column == "3" or column == "7" or column is "8" or column is "9"):
+					self.windowSurface.blit(image,(x,y))
+				if(column == "3" or column == "7" or column is "8" or column is "9" or column is "B"):
 					image = constants.SPACE
+					self.windowSurface.blit(image,(x,y))
 				if(column == "4"):
 					image = constants.WALL
+					self.windowSurface.blit(image,(x,y))
 				if(column == "5"):
 					image = constants.REDTOWER
+					self.windowSurface.blit(image,(x,y))
 				if(column == "6"):
 					image = constants.BLUETOWER
+					self.windowSurface.blit(image,(x,y))
+				if(column == "A"):
+					pass
+					#image = constants.BLANK
 
-				self.windowSurface.blit(image,(x,y))
-				x = x + self.height + margin
-			y=y+self.width + margin
+				
+				x = x + self.height 
+			y=y+self.width
 			x = 0
 		rect = pygame.Rect(self.xlist[1], self.ylist[1], self.width * 38, self.height * 24)
 		pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
@@ -161,7 +170,6 @@ class Map:
 		self.updateMoney()
 		self.updateScore()
 		self.updateLives()
-		self.updateLevel()
 
 
 
@@ -416,44 +424,14 @@ class Map:
 			#pygame.display.update()
 
 	def bulletShoot(self,mini,tow):
-		print("BulletShoot")
-		mybull = Bullet(tow.centery,tow.centerx,tow.dam)
-		mypbull = Bullet(mini.movingY,mini.movingX+50,tow.dam)
-		self.bullets.append(mybull)
-		self.pbullet.append(mypbull)
-
-		for b,c in zip(self.bullets,self.pbullet):
-			print(b.mX,"BeforeX")
-			if(c.mX < tow.centerx):
-				b.mX = b.mX - mini.speed
-			elif(c.mX > tow.centerx):
-				b.mX = b.mX + mini.speed
-			else:
-				print("Pass")
-				pass
-			print(b.mX,"AfterX")
-
-			print(b.mY,"BeforeY")
-			if(c.mY < tow.centery):
-				b.mY = b.mY - mini.speed
-			elif(c.mY > tow.centery):
-				b.mY = b.mY + mini.speed
-			else:
-				print("Psss")
-				pass
-			print(b.mY,"AfterY")
-
-
-		for b,c in zip(self.bullets,self.pbullet):
-			if(b.mX >= c.mX and b.mY >= c.mY):
-				self.bullets.remove(b)
-				self.pbullet.remove(c)
-
-
-		self.windowSurface.blit(self.filler,(0,0))
-
-		for b in self.bullets:
-			self.windowSurface.blit(constants.BULLET,pygame.Rect(b.mY,b.mX,0,0))
+		totalX = (mini.movingX - tow.centerx)/2
+		totalY = (mini.movingY - tow.centery)/2
+		mybull = Bullet(tow.centerx,tow.centery,tow.dam)		
+		myrect = pygame.draw.rect(self.windowSurface,tow.color,(mybull.mY,mybull.mX,tow.sizex,tow.sizey))		
+		myrect = myrect.move(totalX,totalY)
+		myrect = pygame.draw.rect(self.windowSurface,tow.color,myrect)
+		myrect = myrect.move(totalX,totalY)
+		myrect = pygame.draw.rect(self.windowSurface,tow.color,myrect)
 
 	def __init__(self,grid, money, score, lives):
 		pygame.init()

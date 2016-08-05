@@ -1,5 +1,6 @@
 from __future__ import print_function
 import pygame
+import constants
 from pygame.locals import *
 import sys
 from map import Map
@@ -13,6 +14,9 @@ class Tower(Map):
 		self.dam = 0
 		self.radius = 0
 		self.cost = 0
+		self.sizex = 0
+		self.sizey = 0
+		self.color = 0
 		self.setType()
 
 	def setType(self):
@@ -21,12 +25,18 @@ class Tower(Map):
 			self.dam = 4
 			self.radius = 95
 			self.cost = 25
+			self.sizex = 3
+			self.sizey = 3
+			self.color = constants.RED
 
 		if(self.ttype is 2):
 			print("print", self.ttype)
 			self.dam = 18
 			self.radius = 150
 			self.cost = 75
+			self.sizex = 6
+			self.sizey = 6
+			self.color = constants.GREEN
 
 	def setCenter(self,num):
 		x = (num + (self.ttype * 25) + num)/2
