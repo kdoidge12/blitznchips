@@ -18,13 +18,13 @@ class Tower(Map):
 	def setType(self):
 		if(self.ttype is 1 ):
 			print("print", self.ttype)
-			self.dam = 1
-			self.radius = 75
+			self.dam = 4
+			self.radius = 95
 			self.cost = 25
 
 		if(self.ttype is 2):
 			print("print", self.ttype)
-			self.dam = 10
+			self.dam = 18
 			self.radius = 150
 			self.cost = 75
 

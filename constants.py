@@ -17,8 +17,8 @@ RICK_PURPLE = (78, 11, 74)
 
 man = pygame.image.load("sim.png")
 
-REDTOWER = pygame.image.load("r.jpg")
-BLUETOWER = pygame.image.load("b.jpg")
+REDTOWER = pygame.image.load("mortyt.png")
+BLUETOWER = pygame.image.load("rickt.png")
 GRASS = pygame.image.load("grass.jpg")
 WALL = pygame.image.load("wall.jpg")
 SPACE = pygame.image.load("space.jpg")
@@ -27,4 +27,11 @@ BULLET = pygame.image.load("sim.png")
 #minions = [[Level,name, 'imagefile', HP, Move_Speed],....]
 minions = [{'level': 1,'name': "A", 'image': 'clg.png', 'hp': 10, 'move' : 10, 'score': 100, 'value': 5},
 		   {'level': 2,'name': "B", 'image': 'clg.png', 'hp': 18, 'move' : 10, 'score': 135, 'value': 8},
-		   {'level': 3,'name': "C", 'image': 'clg.png', 'hp': 32, 'move' : 10, 'score': 180, 'value': 14}]
+		   {'level': 3,'name': "C", 'image': 'clg.png', 'hp': 32, 'move' : 10, 'score': 180, 'value': 12},
+		   {'level': 4,'name': "C", 'image': 'clg.png', 'hp': 50, 'move' : 10, 'score': 180, 'value': 17},
+		   {'level': 5,'name': "C", 'image': 'clg.png', 'hp': 80, 'move' : 10, 'score': 180, 'value': 23},
+		   {'level': 6,'name': "C", 'image': 'clg.png', 'hp': 120, 'move' : 10, 'score': 180, 'value': 30},
+		   {'level': 7,'name': "C", 'image': 'clg.png', 'hp': 165, 'move' : 10, 'score': 180, 'value': 38},
+		   {'level': 8,'name': "C", 'image': 'clg.png', 'hp': 220, 'move' : 10, 'score': 180, 'value': 47},
+		   {'level': 9,'name': "C", 'image': 'clg.png', 'hp': 290, 'move' : 10, 'score': 180, 'value': 57},
+		   {'level': 10,'name': "C", 'image': 'clg.png', 'hp': 390, 'move' : 10, 'score': 180, 'value': 70}]

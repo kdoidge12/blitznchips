@@ -52,6 +52,7 @@ def main(arg):
 			if(not minions):
 				level.bool = False
 				level.level = level.level + 1
+				level.updateLevel()
 				t_minions = 1
 				print("success")
 			for x in range(len(minions)):
@@ -106,10 +107,10 @@ def main(arg):
 			temporary = Tower(2)
 			if (level.canPutTower(cord[0],cord[1]) is True and level.canPutTower(cord[0],cord[1]+1) is True and level.canPutTower(cord[0]+1,cord[1]+1) is True and level.canPutTower(cord[0]+1,cord[1]) is True):
 				if((level.money - temporary.cost) >= 0):
-					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]],level.width,level.height),0)
-					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]+1],level.width,level.height),0)
-					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]+1],level.width,level.height),0)
-					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]],level.width,level.height),0)
+					pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]],level.width*2,level.height*2),0)
+					#pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]],level.xlist[cord[1]+1],level.width,level.height),0)
+					#pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]+1],level.width,level.height),0)
+					#pygame.draw.rect(level.windowSurface,constants.BLACK,(level.xlist[cord[0]+1],level.xlist[cord[1]],level.width,level.height),0)
 					level.grid[cord[1]][cord[0]] = '6'
 					level.grid[cord[1]][cord[0]+1] = '6'
 					level.grid[cord[1]+1][cord[0]+1] = '6'

@@ -62,16 +62,21 @@ class Map:
 		pygame.time.delay(100)
 
 	def moveX(self,minions):
+		if self.width == 20:
+			pixels = 20
+		else:
+			pixels = 25
 		self.windowSurface.blit(self.filler,(0,0))
 		for x in minions:
 			mul = self.multi(x.movingX,x.movingY)
 			if(self.change(x.movingX,x.movingY)):
 				self.windowSurface.blit(constants.man,(x.movingX,x.movingY))
-				x.movingY = x.movingY + (25*mul)
+				x.movingY = x.movingY + (pixels*mul)
 			else:
 				self.windowSurface.blit(constants.man,(x.movingX,x.movingY))
-				x.movingX = x.movingX + (25*mul)
+				x.movingX = x.movingX + (pixels*mul)
 			self.live_check(minions, x)
+
 
 	def multi25W(self,x):
 		return x * self.width
@@ -156,6 +161,7 @@ class Map:
 		self.updateMoney()
 		self.updateScore()
 		self.updateLives()
+		self.updateLevel()
 
 
 
@@ -231,9 +237,9 @@ class Map:
 		else:
 			return False
 
-	##########################################
-	#draws all static font on the map        #
-	##########################################
+    ##########################################
+    #draws all static font on the map        #
+    ##########################################
 	def drawMenu(self):
 		y = self.screenHeight - (self.height * 26)
 		fonts = FontTemplate(('arial', 15))
@@ -241,6 +247,8 @@ class Map:
 		pygame.draw.rect(self.windowSurface, constants.BLACK, rect)
 		pygame.draw.rect(self.windowSurface, constants.WHITE, rect, 3)
 		fonts.Draw(self.windowSurface, 'arial', 15, 'TOWERS', (self.width * 2, ((self.height * 25) + self.width / 2) ), constants.WHITE, 'left', 'center', True)
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, 'LEVEL', (self.xlist[2], self.ylist[29]), constants.WHITE, 'left', 'center', True)
 		fonts = FontTemplate(('arial', 15))
 		fonts.Draw(self.windowSurface, 'arial', 15, 'LIVES', (self.xlist[9], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 		fonts = FontTemplate(('arial', 15))
@@ -263,8 +271,11 @@ class Map:
 			speed = 'Fast'
 		fonts = FontTemplate(('arial', 12))
 		fonts.Draw(self.windowSurface, 'arial', 12, 'DAMAGE: ' + damage, (self.xlist[29], self.ylist[26]), constants.WHITE, 'center', 'center', True)
+		fonts = FontTemplate(('arial', 12))
 		fonts.Draw(self.windowSurface, 'arial', 12, 'RADIUS: ' + radius, (self.xlist[29], self.ylist[27]), constants.WHITE, 'center', 'center', True)
+		fonts = FontTemplate(('arial', 12))
 		fonts.Draw(self.windowSurface, 'arial', 12, 'COST: ' + cost, (self.xlist[29], self.ylist[28]), constants.WHITE, 'center', 'center', True)
+		fonts = FontTemplate(('arial', 12))
 		fonts.Draw(self.windowSurface, 'arial', 12, 'SPEED: ' + speed, (self.xlist[29], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 		pygame.display.update()
 
@@ -276,13 +287,22 @@ class Map:
 		fonts = FontTemplate(('arial', 15))
 		fonts.Draw(self.windowSurface, 'arial', 15, str(" "), (self.xlist[24], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 
-	##########################################
-	#pass in money to update money on menu   #
-	##########################################
+    ##########################################
+    #pass in money to update money on menu   #
+    ##########################################
 	def updateMoney(self):
 		fonts = FontTemplate(('arial', 15))
 		fonts.Draw(self.windowSurface, 'arial', 15, str(self.money), (self.xlist[24], self.ylist[29]), constants.WHITE, 'center', 'center', True)
 		pygame.display.update()
+
+    ##########################################
+    #pass in money to update money on menu   #
+    ##########################################
+	def updateLevel(self):
+		fonts = FontTemplate(('arial', 15))
+		fonts.Draw(self.windowSurface, 'arial', 15, str(self.level), (self.xlist[2], self.ylist[30]), constants.WHITE, 'center', 'center', True)
+		pygame.display.update()
+
 
 	##########################################
 	#pass in lives to update lives on menu   #
